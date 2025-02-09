@@ -3,15 +3,13 @@ import os
 import time
 from shutil import copyfile
 from glob import glob
-import tensorflow as tf
+import tensorflow.compat.v1 as tf
+tf.disable_v2_behavior()
 import numpy as np
-import config
 from collections import namedtuple
 from module import *
 from utils import *
 from ops import *
-from metrics import *
-os.environ["CUDA_VISIBLE_DEVICES"] = os.environ['SGE_GPU']
 
 
 class cyclegan(object):
@@ -186,7 +184,6 @@ class cyclegan(object):
             print(var.name)
 
     def train(self, args):
-
         # Learning rate
         self.lr = tf.placeholder(tf.float32, None, name='learning_rate')
 
@@ -250,7 +247,6 @@ class cyclegan(object):
                                                                          self.pitch_range, self.input_c_dim]))
 
                 if self.model == 'base':
-
                     # Update G network and record fake outputs
                     fake_A, fake_B, _, summary_str, g_loss_a2b, g_loss_b2a, cycle_loss, g_loss = self.sess.run([self.fake_A,
                         self.fake_B, self.g_optim, self.g_sum, self.g_loss_a2b, self.g_loss_b2a, self.cycle_loss,
@@ -270,7 +266,6 @@ class cyclegan(object):
                            (g_loss_a2b, g_loss_b2a, cycle_loss, da_loss, db_loss)))
 
                 else:
-
                     # To feed real_mixed
                     batch_files_mixed = data_mixed[idx * self.batch_size:(idx + 1) * self.batch_size]
                     batch_images_mixed = [np.load(batch_file) * 1. for batch_file in batch_files_mixed]

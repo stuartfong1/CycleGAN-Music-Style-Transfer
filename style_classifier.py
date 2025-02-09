@@ -1,12 +1,12 @@
 import numpy as np
-import tensorflow as tf
+import tensorflow.compat.v1 as tf
+tf.disable_v2_behavior()
 from random import shuffle
 from collections import namedtuple
 from module import *
 from ops import *
 from utils import *
 from glob import glob
-os.environ["CUDA_VISIBLE_DEVICES"] = os.environ['SGE_GPU']
 
 
 class Classifer(object):

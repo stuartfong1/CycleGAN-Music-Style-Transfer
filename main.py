@@ -1,10 +1,12 @@
 import argparse
 import os
-import tensorflow as tf
+import tensorflow.compat.v1 as tf
+tf.disable_v2_behavior()
 from model import cyclegan
 from style_classifier import Classifer
 tf.set_random_seed(19)
-os.environ["CUDA_VISIBLE_DEVICES"] = os.environ['SGE_GPU']
+
+tf.config.list_physical_devices('GPU')
 
 parser = argparse.ArgumentParser(description='')
 parser.add_argument('--dataset_dir', dest='dataset_dir', default='JAZZ2ROCK', help='path of the dataset')
